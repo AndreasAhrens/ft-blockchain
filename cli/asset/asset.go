@@ -11,7 +11,7 @@ import (
 	. "ft-blockchain/common"
 	"ft-blockchain/core/transaction"
 	"ft-blockchain/net/httpjsonrpc"
-	"ft-blockchain/sdk"
+	"ft-blockchain/helper"
 
 	"github.com/urfave/cli"
 )
@@ -110,12 +110,12 @@ func assetAction(c *cli.Context) error {
 	case c.Bool("reg"):
 		name := parseAssetName(c)
 		wallet := openWallet(c.String("wallet"), WalletPassword(c.String("password")))
-		txn, err = sdk.MakeRegTransaction(wallet, name, value)
+		txn, err = helper.MakeRegTransaction(wallet, name, value)
 	case c.Bool("issue"):
 		assetID := parseAssetID(c)
 		address := parseAddress(c)
 		wallet := openWallet(c.String("wallet"), WalletPassword(c.String("password")))
-		txn, err = sdk.MakeIssueTransaction(wallet, assetID, address, value)
+		txn, err = helper.MakeIssueTransaction(wallet, assetID, address, value)
 	case c.Bool("transfer"):
 		assetID := c.String("asset")
 		address := parseAddress(c)

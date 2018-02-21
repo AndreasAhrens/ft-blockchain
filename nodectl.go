@@ -8,7 +8,6 @@ import (
 	"ft-blockchain/cli/asset"
 	"ft-blockchain/cli/bookkeeper"
 	. "ft-blockchain/cli/common"
-	"ft-blockchain/cli/consensus"
 	"ft-blockchain/cli/data"
 	"ft-blockchain/cli/debug"
 	"ft-blockchain/cli/info"
@@ -40,7 +39,6 @@ func main() {
 	}
 	//commands
 	app.Commands = []cli.Command{
-		*consensus.NewCommand(),
 		*debug.NewCommand(),
 		*info.NewCommand(),
 		*test.NewCommand(),

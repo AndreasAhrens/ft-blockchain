@@ -19,7 +19,7 @@ import (
 	"ft-blockchain/core/signature"
 	tx "ft-blockchain/core/transaction"
 	. "ft-blockchain/errors"
-	"ft-blockchain/sdk"
+	"ft-blockchain/helper"
 
 	"github.com/mitchellh/go-homedir"
 )
@@ -622,7 +622,7 @@ func makeRegTxn(params []interface{}) map[string]interface{} {
 		return RpcReturn("open wallet first")
 	}
 
-	regTxn, err := sdk.MakeRegTransaction(Wallet, assetName, assetValue)
+	regTxn, err := helper.MakeRegTransaction(Wallet, assetName, assetValue)
 	if err != nil {
 		return RpcInternalError
 	}
@@ -667,7 +667,7 @@ func makeIssueTxn(params []interface{}) map[string]interface{} {
 	if err := assetID.Deserialize(bytes.NewReader(tmp)); err != nil {
 		return RpcReturn("invalid asset hash")
 	}
-	issueTxn, err := sdk.MakeIssueTransaction(Wallet, assetID, address, value)
+	issueTxn, err := helper.MakeIssueTransaction(Wallet, assetID, address, value)
 	if err != nil {
 		return RpcInternalError
 	}
@@ -706,7 +706,7 @@ func sendToAddress(params []interface{}) map[string]interface{} {
 		return RpcReturn("error : wallet is not opened")
 	}
 
-	batchOut := sdk.BatchOut{
+	batchOut := helper.BatchOut{
 		Address: address,
 		Value:   value,
 	}
@@ -718,7 +718,7 @@ func sendToAddress(params []interface{}) map[string]interface{} {
 	if err := assetID.Deserialize(bytes.NewReader(tmp)); err != nil {
 		return RpcReturn("error: invalid asset hash")
 	}
-	txn, err := sdk.MakeTransferTransaction(Wallet, assetID, batchOut)
+	txn, err := helper.MakeTransferTransaction(Wallet, assetID, batchOut)
 	if err != nil {
 		return RpcReturn("error: " + err.Error())
 	}
@@ -772,7 +772,7 @@ func lockAsset(params []interface{}) map[string]interface{} {
 		return RpcReturn("error: invalid asset hash")
 	}
 
-	txn, err := sdk.MakeLockAssetTransaction(Wallet, assetID, value, uint32(height))
+	txn, err := helper.MakeLockAssetTransaction(Wallet, assetID, value, uint32(height))
 	if err != nil {
 		return RpcReturn("error: " + err.Error())
 	}
@@ -867,7 +867,7 @@ func createMultisigTransaction(params []interface{}) map[string]interface{} {
 		return RpcReturn("error : wallet is not opened")
 	}
 
-	batchOut := sdk.BatchOut{
+	batchOut := helper.BatchOut{
 		Address: address,
 		Value:   value,
 	}
@@ -879,7 +879,7 @@ func createMultisigTransaction(params []interface{}) map[string]interface{} {
 	if err := assetID.Deserialize(bytes.NewReader(tmp)); err != nil {
 		return RpcReturn("error: invalid asset hash")
 	}
-	txn, err := sdk.MakeMultisigTransferTransaction(Wallet, assetID, from, batchOut)
+	txn, err := helper.MakeMultisigTransferTransaction(Wallet, assetID, from, batchOut)
 	if err != nil {
 		return RpcReturn("error: " + err.Error())
 	}
@@ -963,7 +963,7 @@ func registerUser(params []interface{}) map[string]interface{} {
 	if err != nil {
 		return RpcInvalidParameter
 	}
-	txn, err := sdk.MakeRegisterUserTransaction(userName, programHash)
+	txn, err := helper.MakeRegisterUserTransaction(userName, programHash)
 	if err != nil {
 		return RpcInternalError
 	}
@@ -1002,7 +1002,7 @@ func postArticle(params []interface{}) map[string]interface{} {
 	if err != nil {
 		return RpcInvalidParameter
 	}
-	txn, err := sdk.MakePostArticleTransaction(Wallet, aHash, author)
+	txn, err := helper.MakePostArticleTransaction(Wallet, aHash, author)
 	if err != nil {
 		return RpcInternalError
 	}
@@ -1058,7 +1058,7 @@ func replyArticle(params []interface{}) map[string]interface{} {
 		return RpcInvalidParameter
 	}
 
-	txn, err := sdk.MakeReplyArticleTransaction(Wallet, pHash, cHash, replier)
+	txn, err := helper.MakeReplyArticleTransaction(Wallet, pHash, cHash, replier)
 	if err != nil {
 		return RpcInternalError
 	}
@@ -1108,7 +1108,7 @@ func likeArticle(params []interface{}) map[string]interface{} {
 	if err != nil {
 		return RpcInvalidParameter
 	}
-	txn, err := sdk.MakeLikeArticleTransaction(Wallet, aHash, liker, likeType)
+	txn, err := helper.MakeLikeArticleTransaction(Wallet, aHash, liker, likeType)
 	if err != nil {
 		return RpcInternalError
 	}
@@ -1169,7 +1169,7 @@ func withdrawal(params []interface{}) map[string]interface{} {
 		return RpcInvalidParameter
 	}
 
-	txn, err := sdk.MakeWithdrawalTransaction(Wallet, payee, aHash, bHash, amount)
+	txn, err := helper.MakeWithdrawalTransaction(Wallet, payee, aHash, bHash, amount)
 	if err != nil {
 		return RpcInternalError
 	}

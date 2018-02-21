@@ -5,7 +5,6 @@ import (
 	. "ft-blockchain/common"
 	"ft-blockchain/common/config"
 	"ft-blockchain/common/log"
-	con "ft-blockchain/consensus"
 	ct "ft-blockchain/core/contract"
 	"ft-blockchain/core/contract/program"
 	"ft-blockchain/core/ledger"
@@ -468,11 +467,6 @@ func (ds *DbftService) PrepareResponseReceived(payload *msg.ConsensusPayload, me
 		return
 	}
 	log.Info("Prepare Response finished")
-}
-
-func (ds *DbftService) RefreshPolicy() {
-	log.Debug()
-	con.DefaultPolicy.Refresh()
 }
 
 func (ds *DbftService) RequestChangeView() {
